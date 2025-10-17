@@ -1,0 +1,258 @@
+/**
+ * Progress-Aware Table of Contents - Frontend Styles
+ * Version: 2.5
+ */
+
+/* TOC Container */
+.patoc-toc {
+    position: sticky;
+    top: 50px;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+}
+
+/* TOC Title */
+.patoc-toc h3 {
+    /* Font styles controlled via inline CSS from PHP */
+}
+
+/* TOC List */
+.patoc-toc ul {
+    list-style: none;
+    padding: 0;
+    position: relative;
+    padding-left: 20px; /* Space for progress bar */
+}
+
+/* Progress Bar Track (gray background) */
+.patoc-toc ul::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5px;
+    width: 2px;
+    height: 100%;
+    background-color: #a5acaf;
+    border-radius: 1px;
+    z-index: 1;
+}
+
+/* Progress Bar Fill (colored, animated) */
+.patoc-toc ul::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5px;
+    width: 2px;
+    border-radius: 1px;
+    background-color: #ef3e42;
+    height: var(--progress-bar-height, 10px);
+    transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2;
+}
+
+/* Progress Indicator Dot */
+.patoc-progress-dot {
+    position: absolute;
+    top: 0;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    background-color: #ef3e42;
+    border-radius: 50%;
+    transform: translateY(calc(var(--progress-bar-height, 10px) - 4px));
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* TOC List Items */
+.patoc-toc li {
+    position: relative;
+}
+
+.patoc-toc li:last-child {
+    margin-bottom: 0;
+}
+
+/* TOC Links */
+.patoc-toc li a {
+    text-decoration: none;
+    display: block;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 4px;
+    padding: 0.25em 0.5em;
+    margin: -0.25em -0.5em;
+    position: relative;
+    word-wrap: break-word;
+    hyphens: auto;
+    outline: none;
+}
+
+/* Focus Styles - Keyboard Navigation Only */
+.patoc-toc li a:focus-visible {
+    outline: 2px solid #005177;
+    outline-offset: 2px;
+}
+
+.patoc-toc li a:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Link Hover State */
+.patoc-toc li a:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    transform: translateX(3px);
+}
+
+/* Active Link State */
+.patoc-toc li a.active {
+    font-weight: bold;
+    transform: translateX(5px);
+    background-color: rgba(239, 62, 66, 0.1);
+}
+
+.patoc-toc li a.active:hover {
+    background-color: rgba(239, 62, 66, 0.15);
+}
+
+/* Hierarchy Styles */
+.patoc-toc li[data-level='h1'] a {
+    font-weight: 600;
+}
+
+.patoc-toc li[data-level='h2'] a {
+    font-weight: 500;
+}
+
+.patoc-toc li[data-level='h3'] a {
+    font-weight: normal;
+    opacity: 0.9;
+}
+
+.patoc-toc li[data-level='h4'] a {
+    font-weight: normal;
+    opacity: 0.8;
+    font-size: 0.95em;
+}
+
+.patoc-toc li[data-level='h5'] a {
+    font-weight: normal;
+    opacity: 0.7;
+    font-size: 0.9em;
+}
+
+.patoc-toc li[data-level='h6'] a {
+    font-weight: normal;
+    opacity: 0.6;
+    font-size: 0.85em;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .patoc-toc {
+        position: static;
+        margin: 1em 0;
+        max-height: none;
+        overflow-y: visible;
+    }
+    
+    .patoc-toc ul {
+        padding-left: 15px;
+    }
+    
+    .patoc-toc ul::before,
+    .patoc-toc ul::after {
+        left: 3px;
+    }
+    
+    .patoc-progress-dot {
+        left: 0;
+    }
+    
+    /* Reduce indentation on mobile */
+    .patoc-toc li[data-level='h3'] a {
+        padding-left: 10px !important;
+    }
+    
+    .patoc-toc li[data-level='h4'] a {
+        padding-left: 20px !important;
+    }
+    
+    .patoc-toc li[data-level='h5'] a {
+        padding-left: 30px !important;
+    }
+    
+    .patoc-toc li[data-level='h6'] a {
+        padding-left: 40px !important;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .patoc-toc {
+        background: white !important;
+        border: 2px solid #000 !important;
+    }
+    
+    .patoc-toc ul::before {
+        background-color: #666 !important;
+    }
+    
+    .patoc-toc ul::after,
+    .patoc-progress-dot {
+        background-color: #000 !important;
+    }
+    
+    .patoc-toc li a:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+    
+    .patoc-toc li a.active {
+        background-color: rgba(0, 0, 0, 0.2) !important;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    .patoc-toc ul::after,
+    .patoc-progress-dot,
+    .patoc-toc li a {
+        transition: none;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .patoc-toc {
+        position: static;
+        box-shadow: none !important;
+        background: transparent !important;
+        border: 1px solid #ccc !important;
+        page-break-inside: avoid;
+    }
+    
+    .patoc-toc ul::before,
+    .patoc-toc ul::after,
+    .patoc-progress-dot {
+        display: none;
+    }
+    
+    .patoc-toc li a {
+        color: #000 !important;
+        text-decoration: underline;
+        padding-left: 0 !important;
+    }
+    
+    .patoc-toc li a.active {
+        font-weight: bold;
+        transform: none;
+        background: transparent !important;
+    }
+    
+    /* Show hierarchy with bullets in print */
+    .patoc-toc li[data-level='h2'] a::before { content: "• "; }
+    .patoc-toc li[data-level='h3'] a::before { content: "◦ "; }
+    .patoc-toc li[data-level='h4'] a::before { content: "▪ "; }
+    .patoc-toc li[data-level='h5'] a::before { content: "▫ "; }
+}
