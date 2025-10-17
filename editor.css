@@ -1,0 +1,35 @@
+/**
+ * Progress-Aware Table of Contents - Block Editor Styles
+ * Version: 2.5
+ */
+
+.patoc-editor-placeholder {
+    background-color: #f8f9fa;
+    border: 1px dashed #a0a0a0;
+    padding: 20px;
+    text-align: center;
+    color: #333;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.patoc-editor-placeholder:hover {
+    border-color: #007cba;
+    background-color: #fff;
+}
+
+.patoc-editor-placeholder h3 {
+    margin: 0 0 15px 0;
+    font-weight: bold;
+}
+
+.patoc-editor-placeholder p {
+    margin: 15px 0 0 0;
+    opacity: 0.7;
+    font-size: 12px;
+}
