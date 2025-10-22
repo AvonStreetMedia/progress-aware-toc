@@ -279,7 +279,7 @@ add_action( 'init', 'patoc_register_block' );
 /**
  * Enqueue frontend assets when block is present
  * 
- * This ensures scripts load properly even with aggressive caching
+ * CACHE FIX: This ensures scripts load properly even with aggressive caching
  */
 function patoc_enqueue_frontend_assets() {
     // Only load on singular posts/pages
@@ -289,23 +289,25 @@ function patoc_enqueue_frontend_assets() {
 
     // Check if the current post has the TOC block
     if ( has_block( 'patoc/progress-aware-toc' ) ) {
+        // Force enqueue (don't rely on block registration alone)
         wp_enqueue_script( 'patoc-frontend-script' );
         wp_enqueue_style( 'patoc-frontend-style' );
     }
 }
-add_action( 'wp_enqueue_scripts', 'patoc_enqueue_frontend_assets' );
+add_action( 'wp_enqueue_scripts', 'patoc_enqueue_frontend_assets', 20 ); // Priority 20 to run after most theme scripts
 
 /**
- * Add async attribute to frontend script for better performance
+ * Add defer attribute to frontend script for better performance
+ * CACHE FIX: Changed from async to defer for more reliable execution
  *
  * @param string $tag    The script tag
  * @param string $handle The script handle
  * @return string Modified script tag
  */
-function patoc_add_async_attribute( $tag, $handle ) {
+function patoc_add_defer_attribute( $tag, $handle ) {
     if ( 'patoc-frontend-script' !== $handle ) {
         return $tag;
     }
     return str_replace( ' src', ' defer src', $tag );
 }
-add_filter( 'script_loader_tag', 'patoc_add_async_attribute', 10, 2 );
+add_filter( 'script_loader_tag', 'patoc_add_defer_attribute', 10, 2 );
